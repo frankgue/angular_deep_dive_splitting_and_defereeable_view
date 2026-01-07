@@ -3,7 +3,6 @@ import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import { resolveTitle, resolveUserName, UserTasksComponent } from './users/user-tasks/user-tasks.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { inject } from '@angular/core';
-import { userRoutes } from './users/users.routes';
 
 
 
@@ -20,14 +19,13 @@ export const routes: Routes = [
   {
     path: '', // <your-domain>/
     component: NoTaskComponent,
-    // redirectTo: '/users/u1',
-    // pathMatch: 'full'
     title: 'No task selected',
   },
   {
     path: 'users/:userId', // <your-domain>/users/<uid>
     component: UserTasksComponent,
-    children: userRoutes,
+    // children: userRoutes,
+    loadChildren: () => import('./users/users.routes').then(mod => mod.userRoutes) ,
     canMatch: [dummyCanMatch],
     data: {
       message: 'Hello!',
